@@ -1,6 +1,9 @@
 [build]
+  publish = "public"
   functions = "netlify/functions"
-  publish = "."
+
+[functions.environment]
+  API_KEY = "your_superparser_api_key"
 
 [[redirects]]
   from = "/parse-resume"

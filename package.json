@@ -1,0 +1,17 @@
+{
+  "name": "resume-parser-app",
+  "version": "1.0.0",
+  "description": "An AI-powered resume parser using Superparser API",
+  "main": "server.js",
+  "scripts": {
+    "build": "echo 'No build step required'",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "arrify": "^3.0.0",
+    "express": "^4.19.2",
+    "form-data": "^4.0.0",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.7.0"
+  }
+}

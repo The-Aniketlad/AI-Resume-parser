@@ -19,8 +19,12 @@ parseButton.addEventListener('click', async () => {
   formData.append('resume', file);
 
   try {
-    const response = await fetch('/parse-resume', { method: 'POST', body: formData });
-    const rawData = await response.json();
+    const response = await fetch('/.netlify/functions/parse-resume', {
+  method: 'POST',
+  body: formData
+});
+const rawData = await response.json();
+
 
     loadingIndicator.classList.add('hidden');
 
@@ -138,6 +142,7 @@ document.getElementById("copy-btn").addEventListener("click", () => {
     setTimeout(() => btn.innerText = "📋 Copy", 2000);
   });
 });
+
 
 
 

@@ -1,5 +1,5 @@
 [build]
-  publish = "public"
+  publish = "Public"
   functions = "netlify/functions"
 
 [functions.environment]
@@ -9,3 +9,4 @@
   from = "/parse-resume"
   to = "/.netlify/functions/parse-resume"
   status = 200
+

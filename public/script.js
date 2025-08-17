@@ -28,10 +28,11 @@ const rawData = await response.json();
 
     loadingIndicator.classList.add('hidden');
 
-    if (!response.ok) {
-      resultsContainer.innerHTML = `<p class="error">Error: ${rawData.error || 'Failed to parse resume.'}</p>`;
-      return;
-    }
+  if (!response.ok || rawData.error) {
+    resultsContainer.innerHTML = `<p class="error">Error: ${rawData.error || 'Failed to parse resume.'}</p>`;
+    return;
+  }
+
 
     console.log("Frontend received data:", rawData);
 
@@ -142,6 +143,7 @@ document.getElementById("copy-btn").addEventListener("click", () => {
     setTimeout(() => btn.innerText = "📋 Copy", 2000);
   });
 });
+
 
 
 

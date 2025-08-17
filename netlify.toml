@@ -3,10 +3,11 @@
   functions = "netlify/functions"
 
 [functions.environment]
-  API_KEY = "your_superparser_api_key"
+  API_KEY = "iAMKOj6S4357Lc1GocK6sa5NKstfzK6N1zMjzSM1"
 
 [[redirects]]
   from = "/parse-resume"
   to = "/.netlify/functions/parse-resume"
   status = 200
+
 

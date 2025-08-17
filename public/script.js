@@ -36,7 +36,7 @@ const rawData = await response.json();
 
     console.log("Frontend received data:", rawData);
 
-    // ✅ The API usually returns { data: { ...fields... } }
+    
     const data = rawData.data || rawData;
 
     console.log("ALL KEYS:", Object.keys(data));
@@ -129,12 +129,12 @@ ${others.replace("ADDITIONAL INFORMATION", "").trim()}
   document.getElementById("results").innerHTML =
     `<pre class="text-output">${textOutput}</pre>`;
 
-  // ✅ Unhide results + copy button
+  
   document.getElementById("results-container").classList.remove("hidden");
   document.getElementById("copy-btn").classList.remove("hidden");
 }
 
-// ✅ Copy to Clipboard logic (outside displayResults)
+
 document.getElementById("copy-btn").addEventListener("click", () => {
   const text = document.getElementById("results").innerText;
   navigator.clipboard.writeText(text).then(() => {
@@ -143,6 +143,7 @@ document.getElementById("copy-btn").addEventListener("click", () => {
     setTimeout(() => btn.innerText = "📋 Copy", 2000);
   });
 });
+
 
 
 

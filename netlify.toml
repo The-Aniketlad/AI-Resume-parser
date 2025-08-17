@@ -1,0 +1,8 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[[redirects]]
+  from = "/parse-resume"
+  to = "/.netlify/functions/parse-resume"
+  status = 200

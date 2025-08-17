@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import FormData from "form-data";
 
 export async function handler(event) {
   try {
@@ -6,20 +7,37 @@ export async function handler(event) {
       return { statusCode: 405, body: "Method Not Allowed" };
     }
 
-    // Send uploaded resume to external parser API
+    
+    const contentType = event.headers["content-type"] || "application/pdf";
+    const buffer = Buffer.from(event.body, event.isBase64Encoded ? "base64" : "utf8");
+
+    // Build FormData for Superparser API
+    const formData = new FormData();
+    formData.append("file", buffer, {
+      filename: "resume.pdf",
+      contentType: contentType
+    });
+
+    // Call Superparser API
     const response = await fetch("https://api.superparser.com/parse", {
       method: "POST",
       headers: {
-        "Content-Type": event.headers["content-type"],
-        "Authorization": `Bearer ${process.env.API_KEY}` // only if needed
+        "X-API-Key": process.env.API_KEY  
       },
-      body: event.body
+      body: formData
     });
 
     const result = await response.json();
 
-    return { statusCode: 200, body: JSON.stringify(result) };
+    return {
+      statusCode: response.status,
+      body: JSON.stringify(result)
+    };
+
   } catch (err) {
-    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.message })
+    };
   }
 }

@@ -22,12 +22,13 @@ parseButton.addEventListener('click', async () => {
 
     // Send raw base64 string to Netlify function
     const response = await fetch('/.netlify/functions/parse-resume', {
-      method: 'POST',
-      headers: {
-        "Content-Type": file.type,
-      },
-      body: base64File,
-    });
+  method: 'POST',
+  headers: {
+    "Content-Type": "application/octet-stream", // ✅ tell Netlify it’s binary/base64
+  },
+  body: base64File,
+});
+
 
     const rawData = await response.json();
     loadingIndicator.classList.add('hidden');
@@ -156,6 +157,7 @@ document.getElementById("copy-btn").addEventListener("click", () => {
     setTimeout(() => btn.innerText = "📋 Copy", 2000);
   });
 });
+
 
 
 

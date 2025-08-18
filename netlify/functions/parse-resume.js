@@ -7,37 +7,36 @@ export async function handler(event) {
       return { statusCode: 405, body: "Method Not Allowed" };
     }
 
-    
-    const contentType = event.headers["content-type"] || "application/pdf";
-    const buffer = Buffer.from(event.body, event.isBase64Encoded ? "base64" : "utf8");
+    // Netlify sends multipart/form-data base64 encoded
+    const bodyBuffer = Buffer.from(event.body, event.isBase64Encoded ? "base64" : "utf8");
 
     // Build FormData for Superparser API
     const formData = new FormData();
-    formData.append("file", buffer, {
+    formData.append("file", bodyBuffer, {
       filename: "resume.pdf",
-      contentType: contentType
+      contentType: event.headers["content-type"] || "application/pdf",
     });
 
     // Call Superparser API
-    const response = await fetch("https://api.superparser.com/parse", {
+    const apiResponse = await fetch("https://api.superparser.com/parse", {
       method: "POST",
       headers: {
-        "X-API-Key": process.env.API_KEY  
+        "X-API-Key": process.env.API_KEY,  // ✅ from Netlify env vars
       },
-      body: formData
+      body: formData,
     });
 
-    const result = await response.json();
+    const result = await apiResponse.json();
 
     return {
-      statusCode: response.status,
-      body: JSON.stringify(result)
+      statusCode: apiResponse.status,
+      body: JSON.stringify(result),
     };
 
   } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message })
+      body: JSON.stringify({ error: err.message }),
     };
   }
 }

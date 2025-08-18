@@ -1,3 +1,7 @@
+console.log("✅ script.js loaded");
+console.log("fileInput:", document.getElementById('resume-file'));
+console.log("parseButton:", document.getElementById('parse-button'));
+
 const fileInput = document.getElementById('resume-file');
 const parseButton = document.getElementById('parse-button');
 const resultsContainer = document.getElementById('results');
@@ -132,6 +136,7 @@ document.getElementById("copy-btn").addEventListener("click", () => {
     setTimeout(() => btn.innerText = "📋 Copy", 2000);
   });
 });
+
 
 
 

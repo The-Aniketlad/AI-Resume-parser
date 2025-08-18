@@ -22,13 +22,12 @@ parseButton.addEventListener('click', async () => {
 
     // Send raw base64 string to Netlify function
     const response = await fetch('/.netlify/functions/parse-resume', {
-  method: 'POST',
-  headers: {
-    "Content-Type": "application/octet-stream", // ✅ tell Netlify it’s binary/base64
-  },
-  body: base64File,
-});
-
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      body: base64File,
+    });
 
     const rawData = await response.json();
     loadingIndicator.classList.add('hidden');
@@ -44,32 +43,8 @@ parseButton.addEventListener('click', async () => {
     loadingIndicator.classList.add('hidden');
     resultsContainer.innerHTML = `<p class="error">Error: ${err.message}</p>`;
   }
-});
+});   
 
-
-
-    console.log("Frontend received data:", rawData);
-
-    
-    const data = rawData.data || rawData;
-
-    console.log("ALL KEYS:", Object.keys(data));
-    console.log("FULL DATA DUMP:", JSON.stringify(data, null, 2));
-
-
-    console.log("DEBUG EDUCATION RAW:", JSON.stringify(
-  data.education || data.education_details || data.academics, 
-  null, 
-  2
-));
-
-    displayResults(data);
-
-  } catch (err) {
-    loadingIndicator.classList.add('hidden');
-    resultsContainer.innerHTML = `<p class="error">Error: ${err.message}</p>`;
-  }
-});
 
 
 
@@ -157,6 +132,7 @@ document.getElementById("copy-btn").addEventListener("click", () => {
     setTimeout(() => btn.innerText = "📋 Copy", 2000);
   });
 });
+
 
 
 

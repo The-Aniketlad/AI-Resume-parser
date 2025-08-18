@@ -15,23 +15,36 @@ parseButton.addEventListener('click', async () => {
   resultsContainer.innerHTML = '';
   loadingIndicator.classList.remove('hidden');
 
-  const formData = new FormData();
-  formData.append('resume', file);
-
   try {
+    // Convert file → base64
+    const arrayBuffer = await file.arrayBuffer();
+    const base64File = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+
+    // Send raw base64 string to Netlify function
     const response = await fetch('/.netlify/functions/parse-resume', {
-  method: 'POST',
-  body: formData
-});
-const rawData = await response.json();
+      method: 'POST',
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: base64File,
+    });
 
-
+    const rawData = await response.json();
     loadingIndicator.classList.add('hidden');
 
-  if (!response.ok || rawData.error) {
-    resultsContainer.innerHTML = `<p class="error">Error: ${rawData.error || 'Failed to parse resume.'}</p>`;
-    return;
+    if (!response.ok || rawData.error) {
+      resultsContainer.innerHTML = `<p class="error">Error: ${rawData.error || 'Failed to parse resume.'}</p>`;
+      return;
+    }
+
+    displayResults(rawData.data || rawData);
+
+  } catch (err) {
+    loadingIndicator.classList.add('hidden');
+    resultsContainer.innerHTML = `<p class="error">Error: ${err.message}</p>`;
   }
+});
+
 
 
     console.log("Frontend received data:", rawData);
@@ -143,6 +156,7 @@ document.getElementById("copy-btn").addEventListener("click", () => {
     setTimeout(() => btn.innerText = "📋 Copy", 2000);
   });
 });
+
 
 
 
